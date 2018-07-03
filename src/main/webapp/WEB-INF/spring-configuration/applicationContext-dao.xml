@@ -1,0 +1,63 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+				http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+				http://www.springframework.org/schema/context 
+				http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+	<!-- spring 整合mybatis配置 -->
+	
+	<!-- 配置数据源 -->
+	<!--<context:property-placeholder location="classpath:db.properties"/>-->
+	<bean id="mybatisSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		  p:driverClass="com.mysql.jdbc.Driver"
+		  p:jdbcUrl="jdbc:mysql://127.0.0.1:3306/manage?useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false"
+		  p:user="root"
+		  p:password="root"
+		  p:initialPoolSize="6"
+		  p:minPoolSize="6"
+		  p:maxPoolSize="18"
+		  p:maxIdleTimeExcessConnections="120"
+		  p:checkoutTimeout="10000"
+		  p:acquireIncrement="6"
+		  p:acquireRetryAttempts="5"
+		  p:acquireRetryDelay="2000"
+		  p:idleConnectionTestPeriod="30"
+		  p:preferredTestQuery="select 1"/>
+
+
+	<!-- 配置sqlSessionFactory,让spring管理sqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="mybatisSource"></property>
+		<property name="configLocation" value="classpath:mybatis/sqlMapConfig.xml"></property>
+	</bean>
+	
+	<!-- 配置接口类扫描 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="cn.haoyu.casServer.mapper"></property>
+	</bean>
+	
+				
+
+</beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
